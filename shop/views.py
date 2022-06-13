@@ -5,28 +5,27 @@ from rest_framework.viewsets import ModelViewSet
 from shop.models import Category, Product, Article
 from shop.serializers import CategorySerializer, ProductSerializer, ArticleSerializer
 
-class CategoryAPIView(APIView):
-
-    def get(self, *args, **kwargs):
-        categories=Category.objects.all()
-        serializer=CategorySerializer(categories, many=True)
-
-        return Response(serializer.data)
+class CategoryAPIView(ModelViewSet):
 
 
-class ProductAPIView(APIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
 
-    def get(self, *args, **kwargs):
-        products=Product.objects.all()
-        serializer=ProductSerializer(products, many=True)
 
-        return Response(serializer.data)
 
-class ArticleAPIView(APIView):
+            
 
-    def get(self, *args, **kwargs):
-        articles=Article.objects.all()
-        serializer=ArticleSerializer(articles, many=True)
 
-        return Response(serializer.data)
+class ProductAPIView(ModelViewSet):
+
+
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+
+
+
+class ArticleAPIView(ModelViewSet):
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+
 
