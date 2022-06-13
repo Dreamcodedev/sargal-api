@@ -37,7 +37,7 @@ class Article(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     active = models.BooleanField(default=False)
-    price = models.DecimalField(max_digits=4, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
     product = models.ForeignKey('shop.Product', on_delete=models.CASCADE, related_name='articles')
 
