@@ -78,7 +78,15 @@ class UserSerializer(ModelSerializer):
         serializer = CommandSerializer(queryset, many=True)
         # la propriété '.data' est le rendu de notre serializer que nous retournons ici
         return serializer.data
-    
+
+    def create_name(self, value):
+        # Nous vérifions que la catégorie existe
+        if Users.objects.filter(email=value).exists():
+        # En cas d'erreur, DRF nous met à disposition l'exception ValidationError
+            raise serializers.ValidationError('Category already exists')
+        return value
+
+
     
     
 

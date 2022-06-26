@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from phone_field import PhoneField
 
 
@@ -54,14 +54,15 @@ class User(models.Model):
 
     active = models.BooleanField(default=False)
 
-    firs_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    email = models.EmailField(max_length = 254)
-    phone = PhoneField(blank=True, help_text='Contact phone number') 
-    card_money = models.DecimalField(max_digits=10, decimal_places=2)
+    firs_name = models.CharField(max_length=255, null=True)
+    last_name = models.CharField(max_length=255, null=True)
+    email = models.EmailField(max_length = 254, null=True)
+    phone = PhoneField(blank=True, help_text='Contact phone number', null=True) 
+    card_money = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def __str__(self):
         return self.email
+
 
 class Command(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
