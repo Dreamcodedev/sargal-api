@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from shop.models import Category, Product, Article
+from shop.models import Category, Product, Article, User, Command
 
 class CategorySerializer(ModelSerializer):
 
@@ -53,9 +53,41 @@ class ProductSerializer(ModelSerializer):
 
 class ArticleSerializer(ModelSerializer):
 
+    class Meta :
+        model = Article
+        fields = ['id', 'date_created', 'date_updated', 'name', 'description', 'active', 'price','amount','photo', 'product']
+
+
+
+class UserSerializer(ModelSerializer):
+    commands = SerializerMethodField()
 
 
     class Meta :
-        model = Article
-        fields = ['id', 'date_created', 'date_updated', 'name', 'description', 'active', 'price','amount', 'product']
+        model = User
+        fields = ['id', 'date_created', 'date_updated', 'firs_name','last_name','email','phone','card_money', 'commands']
 
+    def get_commands(self, instance):
+        # Le paramètre 'instance' est l'instance de la catégorie consultée.
+        # Dans le cas d'une liste, cette méthode est appelée autant de fois qu'il y a
+        # d'entités dans la liste
+
+        # On applique le filtre sur notre queryset pour n'avoir que les produits actifs
+        queryset = instance.commands.filter(active=True)
+        # Le serializer est créé avec le queryset défini et toujours défini en tant que many=True
+        serializer = CommandSerializer(queryset, many=True)
+        # la propriété '.data' est le rendu de notre serializer que nous retournons ici
+        return serializer.data
+    
+    
+    
+
+
+class CommandSerializer(ModelSerializer):
+
+    class Meta :
+        model = Command
+        fields = ['id', 'date_created', 'date_updated', 'name', 'active', 'price','quantity', 'user']
+
+
+    
