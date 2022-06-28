@@ -73,9 +73,24 @@ class Command(models.Model):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveSmallIntegerField(default=1)
+    email =  models.EmailField(max_length = 254, null=True)
 
-    user = models.ForeignKey('shop.User', on_delete=models.CASCADE, related_name='commands')
 
     def __str__(self):
         return self.name
+
+class Trip(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    active = models.BooleanField(default=False)
+    date_time=models.CharField(max_length=255)
+    departure = models.CharField(max_length=255)
+    arrival = models.CharField(max_length=255)
+    phone = PhoneField(blank=True, help_text='Contact phone number', null=True)
+    email =  models.EmailField(max_length = 254, null=True)
+
+
+    def __str__(self):
+        return self.email
 
