@@ -42,6 +42,7 @@ class Article(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     amount = models.PositiveSmallIntegerField(default=1)
     photo=models.ImageField(upload_to='articles', blank=True)
+    promotion = models.BooleanField(default=False)
 
     product = models.ForeignKey('shop.Product', on_delete=models.CASCADE, related_name='articles')
 

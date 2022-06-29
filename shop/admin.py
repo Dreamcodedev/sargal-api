@@ -14,7 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class ArticleAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'product', 'category','price' ,'amount','photo','active')
+    list_display = ('name', 'product', 'category','price' ,'amount','photo','promotion','active')
 
     @admin.display(description='Category')
     def category(self, obj):
