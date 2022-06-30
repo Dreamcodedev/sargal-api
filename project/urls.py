@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from shop.views import CategoryAPIView, ProductAPIView, ArticleAPIView, UserAPIView, CommandAPIView, UserCreateAPIView, UserUpdateAPIView,TripAPIView,TripCreateAPIView,CommandCreateAPIView
+from shop.views import CategoryAPIView, ProductAPIView, UserAPIView, CommandAPIView, UserCreateAPIView, UserUpdateAPIView,TripAPIView,TripCreateAPIView,CommandCreateAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -8,8 +8,6 @@ urlpatterns = [
     path('api/category/', CategoryAPIView.as_view({'get': 'list',
         'post':'create'})),
     path('api/product/', ProductAPIView.as_view({'get': 'list',
-        'post':'create'})),
-    path('api/article/', ArticleAPIView.as_view({'get': 'list',
         'post':'create'})),
     path('api/user/', UserAPIView.as_view({'get': 'list',
         'post':'create'})),

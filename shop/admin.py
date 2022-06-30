@@ -1,5 +1,5 @@
 from django.contrib import admin
-from shop.models import Category, Product, Article, User, Command, Trip
+from shop.models import Category, Product, User, Command, Trip
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -9,16 +9,16 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'category', 'active')
+    list_display = ('name', 'category','description','price','amount','photo','promotion', 'active')
 
 
-class ArticleAdmin(admin.ModelAdmin):
+"""class ArticleAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'product', 'category','price' ,'amount','photo','promotion','active')
 
     @admin.display(description='Category')
     def category(self, obj):
-        return obj.product.category
+        return obj.product.category"""
 
 class UserAdmin(admin.ModelAdmin):
 
@@ -36,7 +36,7 @@ class TripAdmin(admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Article, ArticleAdmin)
+#admin.site.register(Article, ArticleAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Command, CommandAdmin)
 admin.site.register(Trip, TripAdmin)

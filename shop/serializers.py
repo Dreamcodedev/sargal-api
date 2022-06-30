@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from shop.models import Category, Product, Article, User, Command, Trip
+from shop.models import Category, Product, User, Command, Trip
 
 class CategorySerializer(ModelSerializer):
 
@@ -33,29 +33,29 @@ class CategorySerializer(ModelSerializer):
 
 
 class ProductSerializer(ModelSerializer):
-    articles = SerializerMethodField()
+    #articles = SerializerMethodField()
 
     class Meta :
         model = Product
-        fields = ['id', 'date_created', 'date_updated', 'name', 'category', 'articles']
+        fields = ['id', 'date_created', 'date_updated', 'name', 'category','description','price','amount','photo','promotion','active' ]
 
-    def get_articles(self, instance):
-        # Le paramètre 'instance' est l'instance de la catégorie consultée.
-        # Dans le cas d'une liste, cette méthode est appelée autant de fois qu'il y a
-        # d'entités dans la liste
+    """def get_articles(self, instance):
+                    # Le paramètre 'instance' est l'instance de la catégorie consultée.
+                    # Dans le cas d'une liste, cette méthode est appelée autant de fois qu'il y a
+                    # d'entités dans la liste
+            
+                    # On applique le filtre sur notre queryset pour n'avoir que les produits actifs
+                    queryset = instance.articles.filter(active=True)
+                    # Le serializer est créé avec le queryset défini et toujours défini en tant que many=True
+                    serializer = ArticleSerializer(queryset, many=True)
+                    # la propriété '.data' est le rendu de notre serializer que nous retournons ici
+                    return serializer.data"""
 
-        # On applique le filtre sur notre queryset pour n'avoir que les produits actifs
-        queryset = instance.articles.filter(active=True)
-        # Le serializer est créé avec le queryset défini et toujours défini en tant que many=True
-        serializer = ArticleSerializer(queryset, many=True)
-        # la propriété '.data' est le rendu de notre serializer que nous retournons ici
-        return serializer.data
-
-class ArticleSerializer(ModelSerializer):
+"""class ArticleSerializer(ModelSerializer):
 
     class Meta :
         model = Article
-        fields = ['id', 'date_created', 'date_updated', 'name', 'description', 'active', 'price','promotion','amount','photo', 'product']
+        fields = ['id', 'date_created', 'date_updated', 'name', 'description', 'active', 'price','promotion','amount','photo', 'product']"""
 
 
 

@@ -24,6 +24,10 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     active = models.BooleanField(default=False)
     #photo=models.ImageField(upload_to='cars', blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.PositiveSmallIntegerField(default=1)
+    photo=models.ImageField(upload_to='articles', blank=True)
+    promotion = models.BooleanField(default=False)
 
     category = models.ForeignKey('shop.Category', on_delete=models.CASCADE, related_name='products')
 
@@ -31,7 +35,7 @@ class Product(models.Model):
         return self.name
 
 
-class Article(models.Model):
+"""class Article(models.Model):
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -47,7 +51,7 @@ class Article(models.Model):
     product = models.ForeignKey('shop.Product', on_delete=models.CASCADE, related_name='articles')
 
     def __str__(self):
-        return self.name
+        return self.name"""
 
 class User(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)

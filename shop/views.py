@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 
-from shop.models import Category, Product, Article, User, Command, Trip
-from shop.serializers import CategorySerializer, ProductSerializer, ArticleSerializer, UserSerializer, CommandSerializer, TripSerializer
+from shop.models import Category, Product, User, Command, Trip
+from shop.serializers import CategorySerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
 
 class CategoryAPIView(ModelViewSet):
 
@@ -26,12 +26,12 @@ class ProductAPIView(ModelViewSet):
         # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         category_id = self.request.GET.get('category_id')
         if category_id is not None:
-            queryset = queryset.filter(category_id=category_id)
+            queryset = queryset.filter(category_id=category_id) 
         return queryset
 
 
 
-class ArticleAPIView(ModelViewSet):
+"""class ArticleAPIView(ModelViewSet):
     serializer_class = ArticleSerializer
     #queryset = Article.objects.all()
     def get_queryset(self):
@@ -41,7 +41,7 @@ class ArticleAPIView(ModelViewSet):
         product_id = self.request.GET.get('product_id')
         if product_id is not None:
             queryset = queryset.filter(product_id=product_id)
-        return queryset
+        return queryset"""
 
 
 
