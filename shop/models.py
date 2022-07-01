@@ -26,7 +26,7 @@ class Product(models.Model):
     #photo=models.ImageField(upload_to='cars', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     amount = models.PositiveSmallIntegerField(default=1)
-    photo=models.ImageField(upload_to='articles', blank=True)
+    photo=models.ImageField(upload_to='products', blank=True)
     promotion = models.BooleanField(default=False)
 
     category = models.ForeignKey('shop.Category', on_delete=models.CASCADE, related_name='products')
@@ -61,6 +61,7 @@ class User(models.Model):
 
     firs_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
+    address = models.CharField(max_length=255, null=True)
     email = models.EmailField(max_length = 254, null=True)
     phone = PhoneField(blank=True, help_text='Contact phone number', null=True) 
     card_money = models.DecimalField(max_digits=10, decimal_places=2, null=True)

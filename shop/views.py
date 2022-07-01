@@ -114,11 +114,12 @@ class UserUpdateAPIView(ModelViewSet):
         firs_name = self.request.GET['firs_name']
         last_name = self.request.GET['last_name']
         phone = self.request.GET['phone']
+        address = self.request.GET['address']
         active = self.request.GET['active']
         #queryset = queryset.filter(email=user_email)
         if email is not None :
             if User.objects.filter(email=email).exists():
-                User.objects.filter(email=email).update( firs_name =firs_name,last_name=last_name,phone=phone, active=active )
+                User.objects.filter(email=email).update( firs_name =firs_name,last_name=last_name,phone=phone,address='address', active=active )
 
                 return
         

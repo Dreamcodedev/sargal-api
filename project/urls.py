@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from shop.views import CategoryAPIView, ProductAPIView, UserAPIView, CommandAPIView, UserCreateAPIView, UserUpdateAPIView,TripAPIView,TripCreateAPIView,CommandCreateAPIView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +27,4 @@ urlpatterns = [
     path('api/trip/create', TripCreateAPIView.as_view({'get': 'list',
         'post':'create'})),
 
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

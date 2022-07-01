@@ -22,7 +22,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class UserAdmin(admin.ModelAdmin):
 
-    list_display = ('email','firs_name', 'last_name',  'phone', 'card_money', 'active' )
+    list_display = ('email','firs_name', 'last_name',  'phone', 'card_money', 'address', 'active' )
 
 
 class CommandAdmin(admin.ModelAdmin):
