@@ -80,18 +80,24 @@ class UserCreateAPIView(ModelViewSet):
     #serializer_class = ProductSerializer
  
     def get_queryset(self):
-    # Nous récupérons tous les produits dans une variable nommée queryset
-        queryset = User.objects.filter(active=True)
+        # Nous récupérons tous les produits dans une variable nommée queryset
+        #queryset = User.objects.filter(active=True)
         # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
-        user_email = self.request.GET.get('email')
-        if user_email is not None:
-            queryset = queryset.filter(email=user_email)
-            if User.objects.filter(email=user_email).exists():
-                return
-            else:
-                User.objects.get_or_create( email =user_email)
+        email = self.request.GET['email']
+        firs_name = self.request.GET['firs_name']
+        last_name = self.request.GET['last_name']
+        phone = self.request.GET['phone']
+        address = self.request.GET['address']
+        card_money = self.request.GET['card_money']
+        active = self.request.GET['active']
+        if email is not None:
+            #queryset = queryset.filter(email=email)
+            #if User.objects.filter(email=email).exists():
+            #return
+            #else:
+            User.objects.get_or_create(email=email,firs_name =firs_name,last_name= last_name, phone= phone,address= address, card_money=card_money, active=active)
 
-                return
+            return
 
 
         
@@ -108,7 +114,7 @@ class UserUpdateAPIView(ModelViewSet):
  
     def get_queryset(self):
     # Nous récupérons tous les produits dans une variable nommée queryset
-        queryset = User.objects.filter(active=True)
+        #queryset = User.objects.filter(active=True)
         # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         email = self.request.GET['email']
         firs_name = self.request.GET['firs_name']
@@ -119,9 +125,15 @@ class UserUpdateAPIView(ModelViewSet):
         #queryset = queryset.filter(email=user_email)
         if email is not None :
             if User.objects.filter(email=email).exists():
-                User.objects.filter(email=email).update( firs_name =firs_name,last_name=last_name,phone=phone,address='address', active=active )
+                User.objects.create(email=email, firs_name =firs_name,last_name=last_name,phone=phone,address=address, active=active )
 
                 return
+
+        #update_values = {"firs_name" : firs_name,"last_name": last_name, "phone": phone,"address": address, "active":active}
+        #new_values = {"email": email}
+
+        
+
         
 
             
