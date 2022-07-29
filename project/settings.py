@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8%!d1x5j3$ouyqb54a!sry!r8(*eqtwr!oi2$l(-!77(_$5fq#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'phone_field',
     'shop',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
