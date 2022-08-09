@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'phone_field',
     'shop',
     'django_extensions'
+    
 ]
 
 MIDDLEWARE = [

@@ -6,7 +6,7 @@ from shop.views import CategoryAPIView, ProductAPIView, UserAPIView, CommandAPIV
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('api-auth/', include('rest_framework.urls')),
     path('api/category/', CategoryAPIView.as_view({'get': 'list',
         'post':'create'})),

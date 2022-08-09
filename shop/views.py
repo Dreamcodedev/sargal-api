@@ -2,10 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 
 from shop.models import Category, Product, User, Command, Trip
 from shop.serializers import CategorySerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
 
+@method_decorator(login_required, name='dispatch')
 class CategoryAPIView(ModelViewSet):
 
 
@@ -13,7 +17,7 @@ class CategoryAPIView(ModelViewSet):
     queryset = Category.objects.all()
             
 
-
+@method_decorator(login_required, name='dispatch')
 class ProductAPIView(ModelViewSet):
 
 
@@ -45,7 +49,7 @@ class ProductAPIView(ModelViewSet):
 
 
 
-
+@method_decorator(login_required, name='dispatch')
 class UserAPIView(ModelViewSet):
 
 
@@ -69,6 +73,7 @@ class UserAPIView(ModelViewSet):
 
         return queryset
 
+@method_decorator(login_required, name='dispatch')
 class UserCreateAPIView(ModelViewSet):
 
 
@@ -101,7 +106,7 @@ class UserCreateAPIView(ModelViewSet):
 
 
         
-
+@method_decorator(login_required, name='dispatch')
 class UserUpdateAPIView(ModelViewSet):
 
 
@@ -138,7 +143,7 @@ class UserUpdateAPIView(ModelViewSet):
 
             
 
-
+@method_decorator(login_required, name='dispatch')
 class CommandAPIView(ModelViewSet):
 
 
@@ -154,6 +159,7 @@ class CommandAPIView(ModelViewSet):
             queryset = queryset.filter(command_id=command_id)
         return queryset
 
+@method_decorator(login_required, name='dispatch')
 class CommandCreateAPIView(ModelViewSet):
 
 
@@ -177,7 +183,7 @@ class CommandCreateAPIView(ModelViewSet):
             Command.objects.create( email =email, price=price, quantity=quantity, name=name, active=active)
             return
 
-
+@method_decorator(login_required, name='dispatch')
 class TripAPIView(ModelViewSet):
 
 
@@ -202,7 +208,7 @@ class TripAPIView(ModelViewSet):
         return queryset
 
 
-
+@method_decorator(login_required, name='dispatch')
 class TripCreateAPIView(ModelViewSet):
 
 
