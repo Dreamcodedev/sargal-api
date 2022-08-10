@@ -38,15 +38,27 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'phone_field',
     'shop',
-    'django_extensions'
+    'django_extensions',
+    
     
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', 
+        'rest_framework.authentication.SessionAuthentication' 
+    ],
+        
+   
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,17 +70,25 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',
+        'http://localhos:4200',
+        'https://*', 'http://*'
 ]
 
 CORS_ALLOW_ALL_ORIGINS : True
 
-CORS_ALLOW_HEADERS = [
-    "*",
+CORS_ALLOW_HEADERS = ["*",]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.sargal.jendgroup.com",
+    "http://www.sargal.jendgroup.com"
 ]
+
 
 CORS_ALLOW_METHODS = ["*"]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CMS_PAGE_CACHE = False
 
 ROOT_URLCONF = 'project.urls'
 
@@ -139,6 +159,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
+STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # new
 
 MEDIA_URL='/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'

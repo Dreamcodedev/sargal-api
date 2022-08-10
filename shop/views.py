@@ -4,21 +4,26 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 
 from shop.models import Category, Product, User, Command, Trip
 from shop.serializers import CategorySerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
 
-@method_decorator(login_required, name='dispatch')
 class CategoryAPIView(ModelViewSet):
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
 
 
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
             
 
-@method_decorator(login_required, name='dispatch')
 class ProductAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
 
 
     serializer_class = ProductSerializer
@@ -35,22 +40,12 @@ class ProductAPIView(ModelViewSet):
 
 
 
-"""class ArticleAPIView(ModelViewSet):
-    serializer_class = ArticleSerializer
-    #queryset = Article.objects.all()
-    def get_queryset(self):
-    # Nous récupérons tous les produits dans une variable nommée queryset
-        queryset = Article.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
-        product_id = self.request.GET.get('product_id')
-        if product_id is not None:
-            queryset = queryset.filter(product_id=product_id)
-        return queryset"""
 
 
-
-@method_decorator(login_required, name='dispatch')
 class UserAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
 
 
     serializer_class = UserSerializer
@@ -73,8 +68,10 @@ class UserAPIView(ModelViewSet):
 
         return queryset
 
-@method_decorator(login_required, name='dispatch')
 class UserCreateAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
 
 
     serializer_class = UserSerializer
@@ -106,8 +103,10 @@ class UserCreateAPIView(ModelViewSet):
 
 
         
-@method_decorator(login_required, name='dispatch')
 class UserUpdateAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
 
 
     serializer_class = UserSerializer
@@ -139,13 +138,10 @@ class UserUpdateAPIView(ModelViewSet):
 
         
 
-        
-
-            
-
-@method_decorator(login_required, name='dispatch')
 class CommandAPIView(ModelViewSet):
 
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
 
     serializer_class = CommandSerializer
     #queryset = Product.objects.all()
@@ -159,9 +155,10 @@ class CommandAPIView(ModelViewSet):
             queryset = queryset.filter(command_id=command_id)
         return queryset
 
-@method_decorator(login_required, name='dispatch')
 class CommandCreateAPIView(ModelViewSet):
 
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
 
     serializer_class = CommandSerializer
     queryset = Command.objects.all()
@@ -183,9 +180,10 @@ class CommandCreateAPIView(ModelViewSet):
             Command.objects.create( email =email, price=price, quantity=quantity, name=name, active=active)
             return
 
-@method_decorator(login_required, name='dispatch')
 class TripAPIView(ModelViewSet):
 
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
 
     serializer_class = TripSerializer
     queryset = Trip.objects.all()
@@ -208,8 +206,10 @@ class TripAPIView(ModelViewSet):
         return queryset
 
 
-@method_decorator(login_required, name='dispatch')
 class TripCreateAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
 
 
     serializer_class = TripSerializer
