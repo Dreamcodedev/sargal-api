@@ -80,6 +80,9 @@ class Command(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveSmallIntegerField(default=1)
     email =  models.EmailField(max_length = 254, null=True)
+    detail = models.TextField(blank=True)
+    delivery = models.BooleanField(default=False)
+    validate = models.BooleanField(default=False)
 
 
     def __str__(self):

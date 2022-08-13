@@ -71,7 +71,7 @@ class CommandSerializer(ModelSerializer):
 
     class Meta :
         model = Command
-        fields = ['id', 'date_created', 'date_updated', 'name', 'active', 'price','quantity','email']
+        fields = ['id', 'date_created', 'date_updated', 'name', 'active', 'price','quantity','email', 'detail', 'delivery', 'validate']
 
 
 class TripSerializer(ModelSerializer):
