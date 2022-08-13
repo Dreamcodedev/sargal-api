@@ -83,6 +83,7 @@ class Command(models.Model):
     detail = models.TextField(blank=True)
     delivery = models.BooleanField(default=False)
     validate = models.BooleanField(default=False)
+    accepted = models.BooleanField(default=True)
 
 
     def __str__(self):
