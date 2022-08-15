@@ -84,6 +84,7 @@ class Command(models.Model):
     delivery = models.BooleanField(default=False)
     validate = models.BooleanField(default=False)
     accepted = models.BooleanField(default=True)
+    number = models.PositiveSmallIntegerField(default=1)
 
 
     def __str__(self):

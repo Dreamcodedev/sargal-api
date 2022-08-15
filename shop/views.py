@@ -7,9 +7,16 @@ from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
-
 from shop.models import Category, Product, User, Command, Trip
 from shop.serializers import CategorySerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
+
+from django.http import HttpResponse
+from django.template import loader
+
+def home(request):
+    template = loader.get_template('home.html')
+    return HttpResponse(template.render())
+
 
 class CategoryAPIView(ModelViewSet):
     permission_classes = (IsAuthenticated,) 
@@ -177,8 +184,9 @@ class CommandCreateAPIView(ModelViewSet):
         quantity = self.request.GET['quantity']
         name = self.request.GET['name']
         detail = self.request.GET['detail']
+        number = self.request.GET['number']
         if email is not None:
-            Command.objects.create( email =email, price=price, quantity=quantity, name=name,detail=detail ,active=active)
+            Command.objects.create( email =email, price=price, quantity=quantity, name=name,detail=detail, number=number ,active=active)
             return
 
 class TripAPIView(ModelViewSet):

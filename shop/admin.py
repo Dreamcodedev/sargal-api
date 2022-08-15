@@ -27,7 +27,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class CommandAdmin(admin.ModelAdmin):
 
-    list_display = ('email','name', 'price', 'quantity', 'detail','delivery','validate', 'accepted', 'active' )
+    list_display = ('email','name', 'price', 'quantity', 'detail','delivery','validate', 'accepted','number' , 'active' )
 
 class TripAdmin(admin.ModelAdmin):
 
