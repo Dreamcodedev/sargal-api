@@ -185,8 +185,9 @@ class CommandCreateAPIView(ModelViewSet):
         name = self.request.GET['name']
         detail = self.request.GET['detail']
         number = self.request.GET['number']
+        phone = self.request.GET['phone']
         if email is not None:
-            Command.objects.create( email =email, price=price, quantity=quantity, name=name,detail=detail, number=number ,active=active)
+            Command.objects.create( email =email, price=price, quantity=quantity, name=name,detail=detail, number=number, phone= phone ,active=active)
             return
 
 class TripAPIView(ModelViewSet):

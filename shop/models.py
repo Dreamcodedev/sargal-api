@@ -85,6 +85,7 @@ class Command(models.Model):
     validate = models.BooleanField(default=False)
     accepted = models.BooleanField(default=True)
     number = models.PositiveSmallIntegerField(default=1)
+    phone = models.PositiveSmallIntegerField(default=0)
 
 
     def __str__(self):
