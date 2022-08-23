@@ -80,7 +80,7 @@ CORS_ALLOW_HEADERS = ["*",]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://www.sargal.jendgroup.com",
-    "http://www.sargal.jendgroup.com"
+    "http://www.sargal.jendgroup.com",
 ]
 
 

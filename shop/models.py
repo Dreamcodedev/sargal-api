@@ -65,6 +65,9 @@ class User(models.Model):
     email = models.EmailField(max_length = 254, null=True)
     phone = PhoneField(blank=True, help_text='Contact phone number', null=True) 
     card_money = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    customer = models.BooleanField(default=False)
+    delivery = models.BooleanField(default=False)
+    seller = models.BooleanField(default=False)
 
     def __str__(self):
         return self.email
@@ -76,16 +79,17 @@ class Command(models.Model):
 
     active = models.BooleanField(default=False)
 
-    name = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    name = models.CharField(max_length=255, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     quantity = models.PositiveSmallIntegerField(default=1)
     email =  models.EmailField(max_length = 254, null=True)
     detail = models.TextField(blank=True)
-    delivery = models.BooleanField(default=False)
     validate = models.BooleanField(default=False)
     accepted = models.BooleanField(default=True)
     number = models.PositiveSmallIntegerField(default=1)
     phone = models.PositiveSmallIntegerField(default=0)
+
+
 
 
     def __str__(self):
@@ -101,6 +105,35 @@ class Trip(models.Model):
     arrival = models.CharField(max_length=255)
     phone = PhoneField(blank=True, help_text='Contact phone number', null=True)
     email =  models.EmailField(max_length = 254, null=True)
+
+
+    def __str__(self):
+        return self.email
+
+class Code(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    active = models.BooleanField(default=False)
+    email =  models.EmailField(max_length = 254, null=True)
+    code = models.PositiveSmallIntegerField(default=1)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    recharge = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return self.email
+
+class Paiement(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    active = models.BooleanField(default=False)
+    number = models.PositiveSmallIntegerField(default=1)
+    delivery =  models.BooleanField(default=False)
+    paiement = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(max_length = 254, null=True)
+    name = models.CharField(max_length=255, blank=True)
 
 
     def __str__(self):

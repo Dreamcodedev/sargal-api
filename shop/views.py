@@ -6,9 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import generics, mixins
+from django.shortcuts import get_list_or_404, get_object_or_404
+from rest_framework import status
 
-from shop.models import Category, Product, User, Command, Trip
-from shop.serializers import CategorySerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
+
+from shop.models import Category, Code, Paiement, Product, User, Command, Trip
+from shop.serializers import CategorySerializer, CodeSerializer, PaiementSerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
 
 from django.http import HttpResponse
 from django.template import loader
@@ -24,8 +28,77 @@ class CategoryAPIView(ModelViewSet):
 
 
     serializer_class = CategorySerializer
-    queryset = Category.objects.all()
-            
+    queryset = Category.objects.filter(active=True)
+
+class CodeAPIView(ModelViewSet):
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = CodeSerializer
+    queryset = Code.objects.all()
+
+class CodeCreateAPIView(ModelViewSet):
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = CodeSerializer
+    queryset = Code.objects.all()
+
+ 
+    def get_queryset(self):
+        # Nous récupérons tous les produits dans une variable nommée queryset
+        #queryset = User.objects.filter(active=True)
+        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
+        email = self.request.GET['email']
+        code = self.request.GET['code']
+        amount = self.request.GET['amount']
+        recharge = self.request.GET['recharge']
+        active = self.request.GET['active']
+        if email is not None:
+            #queryset = queryset.filter(email=email)
+            #if User.objects.filter(email=email).exists():
+            #return
+            #else:
+            Code.objects.get_or_create(email=email,code =code,amount= amount, recharge= recharge, active=active)
+
+            return
+
+class PaiementAPIView(ModelViewSet):
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = PaiementSerializer
+    queryset = Paiement.objects.all()           
+
+class PaiementCreateAPIView(ModelViewSet):
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = PaiementSerializer
+    queryset = Paiement.objects.all()
+
+ 
+    def get_queryset(self):
+        # Nous récupérons tous les produits dans une variable nommée queryset
+        #queryset = User.objects.filter(active=True)
+        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
+        email = self.request.GET['email']
+        number = self.request.GET['number']
+        delivry = self.request.GET['delivery']
+        paiement = self.request.GET['paiement']
+        name = self.request.GET['name']
+        active = self.request.GET['active']
+
+        if email is not None:
+            Paiement.objects.get_or_create(email=email,number =number,delivry= delivry, paiement= paiement, name=name , active=active)
+
+            return
+
+
 
 class ProductAPIView(ModelViewSet):
 
@@ -98,13 +171,14 @@ class UserCreateAPIView(ModelViewSet):
         phone = self.request.GET['phone']
         address = self.request.GET['address']
         card_money = self.request.GET['card_money']
+        customer = self.request.GET['customer']
         active = self.request.GET['active']
         if email is not None:
             #queryset = queryset.filter(email=email)
             #if User.objects.filter(email=email).exists():
             #return
             #else:
-            User.objects.get_or_create(email=email,firs_name =firs_name,last_name= last_name, phone= phone,address= address, card_money=card_money, active=active)
+            User.objects.get_or_create(email=email,firs_name =firs_name,last_name= last_name, phone= phone,address= address, card_money=card_money, customer=customer, active=active)
 
             return
 
@@ -135,10 +209,10 @@ class UserUpdateAPIView(ModelViewSet):
         active = self.request.GET['active']
         #queryset = queryset.filter(email=user_email)
         if email is not None :
-            if User.objects.filter(email=email).exists():
-                User.objects.create(email=email, firs_name =firs_name,last_name=last_name,phone=phone,address=address, active=active )
+            User.objects.filter(email=email).update_or_create(email=email, firs_name =firs_name,last_name=last_name,phone=phone,address=address, active=active)
+            #User.objects.create(email=email, firs_name =firs_name,last_name=last_name,phone=phone,address=address, active=active )
 
-                return
+            return
 
         #update_values = {"firs_name" : firs_name,"last_name": last_name, "phone": phone,"address": address, "active":active}
         #new_values = {"email": email}
@@ -189,6 +263,7 @@ class CommandCreateAPIView(ModelViewSet):
         if email is not None:
             Command.objects.create( email =email, price=price, quantity=quantity, name=name,detail=detail, number=number, phone= phone ,active=active)
             return
+        
 
 class TripAPIView(ModelViewSet):
 

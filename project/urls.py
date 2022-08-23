@@ -3,7 +3,10 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.authtoken.views import obtain_auth_token 
-from shop.views import CategoryAPIView, ProductAPIView, UserAPIView, CommandAPIView, UserCreateAPIView, UserUpdateAPIView,TripAPIView,TripCreateAPIView,CommandCreateAPIView
+from shop.views import (CategoryAPIView, CodeAPIView, CodeCreateAPIView, 
+                        ProductAPIView, UserAPIView, CommandAPIView, UserCreateAPIView, 
+                        UserUpdateAPIView,TripAPIView,TripCreateAPIView,CommandCreateAPIView, 
+                        PaiementAPIView, PaiementCreateAPIView,home)
 
 
 urlpatterns = [
@@ -28,5 +31,15 @@ urlpatterns = [
         'post':'create'})),
     path('api/trip/create', TripCreateAPIView.as_view({'get': 'list',
         'post':'create'})),
+    path('api/code/create', CodeCreateAPIView.as_view({'get': 'list',
+        'post':'create'})),
+    path('api/code/', CodeAPIView.as_view({'get': 'list',
+        'post':'create'})),
+    path('api/paiement/', PaiementAPIView.as_view({'get': 'list',
+        'post':'create'})),
+    path('api/paiement/create', PaiementCreateAPIView.as_view({'get': 'list',
+        'post':'create'})),
+
+    path('home', home, name='home'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

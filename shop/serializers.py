@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from shop.models import Category, Product, User, Command, Trip
+from shop.models import Category, Code, Paiement, Product, User, Command, Trip
 
 class CategorySerializer(ModelSerializer):
 
@@ -63,7 +63,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta :
         model = User
-        fields = ['id', 'date_created', 'date_updated', 'firs_name','last_name','address','email','phone','card_money', 'active'] 
+        fields = ['id', 'date_created', 'date_updated', 'firs_name','last_name','address','email','phone','card_money', 'customer','delivery' ,'seller' ,'active'] 
 
 
 
@@ -71,7 +71,15 @@ class CommandSerializer(ModelSerializer):
 
     class Meta :
         model = Command
-        fields = ['id', 'date_created', 'date_updated', 'name', 'active', 'price','quantity','email', 'detail', 'delivery', 'validate', 'number','accepted', 'phone']
+        fields = ['id', 'date_created', 'date_updated', 'name', 'active', 'price','quantity','email', 'detail', 'validate', 'number','accepted', 'phone']
+
+    def update(self, data):
+        queryset = Command.objects.filter(data[id]).update( delivery = data['delivery'], paiement = data['paiement'])
+        #delivery = self.validated_data['delivery']
+        #paiement = self.validated_data['paiement']
+        #return super().update(instance, validated_data)
+        queryset.save()
+
 
 
 class TripSerializer(ModelSerializer):
@@ -80,4 +88,14 @@ class TripSerializer(ModelSerializer):
         model = Trip
         fields = ['id', 'date_created', 'date_updated', 'active', 'departure','arrival','date_time','email', 'phone']
 
-    
+class CodeSerializer(ModelSerializer):
+
+    class Meta :
+        model = Code
+        fields = ['id', 'date_created','date_updated','email','code', 'amount','recharge','active']    
+
+class PaiementSerializer(ModelSerializer):
+
+    class Meta :
+        model = Paiement
+        fields = ['date_created','date_updated','email','number', 'delivery','paiement','name','active']
