@@ -25,7 +25,7 @@ class Product(models.Model):
     active = models.BooleanField(default=False)
     #photo=models.ImageField(upload_to='cars', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    amount = models.PositiveSmallIntegerField(default=1)
+    amount = models.PositiveIntegerField(default=1)
     photo=models.ImageField(upload_to='products', blank=True)
     promotion = models.BooleanField(default=False)
 
@@ -44,7 +44,7 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     active = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    amount = models.PositiveSmallIntegerField(default=1)
+    amount = models.PositiveIntegerField(default=1)
     photo=models.ImageField(upload_to='articles', blank=True)
     promotion = models.BooleanField(default=False)
 
@@ -81,13 +81,13 @@ class Command(models.Model):
 
     name = models.CharField(max_length=255, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    quantity = models.PositiveSmallIntegerField(default=1)
+    quantity = models.PositiveIntegerField(default=1)
     email =  models.EmailField(max_length = 254, null=True)
     detail = models.TextField(blank=True)
     validate = models.BooleanField(default=False)
     accepted = models.BooleanField(default=True)
-    number = models.PositiveSmallIntegerField(default=1)
-    phone = models.PositiveSmallIntegerField(default=0)
+    number = models.PositiveIntegerField(default=1)
+    phone = models.PositiveIntegerField(default=0)
 
 
 
@@ -116,7 +116,7 @@ class Code(models.Model):
 
     active = models.BooleanField(default=False)
     email =  models.EmailField(max_length = 254, null=True)
-    code = models.PositiveSmallIntegerField(default=1)
+    code = models.PositiveIntegerField(default=1)
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     recharge = models.BooleanField(default=False)
 
@@ -129,7 +129,7 @@ class Paiement(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     active = models.BooleanField(default=False)
-    number = models.PositiveSmallIntegerField(default=1)
+    number = models.PositiveIntegerField(default=1)
     delivery =  models.BooleanField(default=False)
     paiement = models.CharField(max_length=255, blank=True)
     email = models.EmailField(max_length = 254, null=True)

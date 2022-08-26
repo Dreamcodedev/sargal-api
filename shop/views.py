@@ -9,6 +9,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics, mixins
 from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework import status
+from django.core.mail import EmailMultiAlternatives, send_mail
 
 
 from shop.models import Category, Code, Paiement, Product, User, Command, Trip
@@ -243,13 +244,9 @@ class CommandCreateAPIView(ModelViewSet):
 
     serializer_class = CommandSerializer
     queryset = Command.objects.all()
-
-    #class ProductViewset(ReadOnlyModelViewSet):
- 
-    #serializer_class = ProductSerializer
  
     def get_queryset(self):
-    # Nous récupérons tous les produits dans une variable nommée queryset
+        # Nous récupérons tous les produits dans une variable nommée queryset
         #queryset = Trip.objects.filter(active=True)
         # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         email = self.request.GET['email']
@@ -260,6 +257,9 @@ class CommandCreateAPIView(ModelViewSet):
         detail = self.request.GET['detail']
         number = self.request.GET['number']
         phone = self.request.GET['phone']
+
+        
+
         if email is not None:
             Command.objects.create( email =email, price=price, quantity=quantity, name=name,detail=detail, number=number, phone= phone ,active=active)
             return
