@@ -49,22 +49,34 @@ class CodeCreateAPIView(ModelViewSet):
 
  
     def get_queryset(self):
-        # Nous récupérons tous les produits dans une variable nommée queryset
-        #queryset = User.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         email = self.request.GET['email']
         code = self.request.GET['code']
         amount = self.request.GET['amount']
         recharge = self.request.GET['recharge']
         active = self.request.GET['active']
         if email is not None:
-            #queryset = queryset.filter(email=email)
-            #if User.objects.filter(email=email).exists():
-            #return
-            #else:
             Code.objects.get_or_create(email=email,code =code,amount= amount, recharge= recharge, active=active)
 
             return
+
+class CodeUpdateAPIView(ModelViewSet):
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = CodeSerializer
+    queryset = Code.objects.all()
+ 
+    def get_queryset(self):
+        active = self.request.GET['active']
+        id = self.request.GET['id']
+        recharge = self.request.GET['recharge']
+        if id is not None :
+            code= Code.objects.get(pk=id)
+            code.recharge = recharge
+            code.save()
+            return
+
 
 class PaiementAPIView(ModelViewSet):
     permission_classes = (IsAuthenticated,) 
@@ -84,9 +96,6 @@ class PaiementCreateAPIView(ModelViewSet):
 
  
     def get_queryset(self):
-        # Nous récupérons tous les produits dans une variable nommée queryset
-        #queryset = User.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         email = self.request.GET['email']
         number = self.request.GET['number']
         delivry = self.request.GET['delivery']
@@ -111,9 +120,7 @@ class ProductAPIView(ModelViewSet):
     #queryset = Product.objects.all()
 
     def get_queryset(self):
-    # Nous récupérons tous les produits dans une variable nommée queryset
         queryset = Product.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         category_id = self.request.GET.get('category_id')
         if category_id is not None:
             queryset = queryset.filter(category_id=category_id) 
@@ -131,21 +138,12 @@ class UserAPIView(ModelViewSet):
 
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
-
-    #class ProductViewset(ReadOnlyModelViewSet):
- 
-    #serializer_class = ProductSerializer
  
     def get_queryset(self):
-    # Nous récupérons tous les produits dans une variable nommée queryset
         queryset = User.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         user_email = self.request.GET.get('email')
         if user_email is not None:
             queryset = queryset.filter(email=user_email)
-            #User.objects.get_or_create( email =user_email)
-
 
         return queryset
 
@@ -157,15 +155,8 @@ class UserCreateAPIView(ModelViewSet):
 
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
-    #class ProductViewset(ReadOnlyModelViewSet):
- 
-    #serializer_class = ProductSerializer
  
     def get_queryset(self):
-        # Nous récupérons tous les produits dans une variable nommée queryset
-        #queryset = User.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         email = self.request.GET['email']
         firs_name = self.request.GET['firs_name']
         last_name = self.request.GET['last_name']
@@ -175,10 +166,6 @@ class UserCreateAPIView(ModelViewSet):
         customer = self.request.GET['customer']
         active = self.request.GET['active']
         if email is not None:
-            #queryset = queryset.filter(email=email)
-            #if User.objects.filter(email=email).exists():
-            #return
-            #else:
             User.objects.get_or_create(email=email,firs_name =firs_name,last_name= last_name, phone= phone,address= address, card_money=card_money, customer=customer, active=active)
 
             return
@@ -193,30 +180,17 @@ class UserUpdateAPIView(ModelViewSet):
 
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
-    #class ProductViewset(ReadOnlyModelViewSet):
- 
-    #serializer_class = ProductSerializer
  
     def get_queryset(self):
-    # Nous récupérons tous les produits dans une variable nommée queryset
-        #queryset = User.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         email = self.request.GET['email']
-        firs_name = self.request.GET['firs_name']
-        last_name = self.request.GET['last_name']
-        phone = self.request.GET['phone']
-        address = self.request.GET['address']
+        card_money = self.request.GET['card_money']
         active = self.request.GET['active']
-        #queryset = queryset.filter(email=user_email)
+        id = self.request.GET['id']
         if email is not None :
-            User.objects.filter(email=email).update_or_create(email=email, firs_name =firs_name,last_name=last_name,phone=phone,address=address, active=active)
-            #User.objects.create(email=email, firs_name =firs_name,last_name=last_name,phone=phone,address=address, active=active )
-
+            user= User.objects.get(pk=id)
+            user.card_money = card_money
+            user.save()
             return
-
-        #update_values = {"firs_name" : firs_name,"last_name": last_name, "phone": phone,"address": address, "active":active}
-        #new_values = {"email": email}
 
         
 
@@ -226,12 +200,9 @@ class CommandAPIView(ModelViewSet):
     authentication_classes = (TokenAuthentication,)
 
     serializer_class = CommandSerializer
-    #queryset = Product.objects.all()
 
     def get_queryset(self):
-    # Nous récupérons tous les produits dans une variable nommée queryset
         queryset = Command.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         command_id = self.request.GET.get('command_id')
         if command_id is not None:
             queryset = queryset.filter(command_id=command_id)
@@ -246,9 +217,6 @@ class CommandCreateAPIView(ModelViewSet):
     queryset = Command.objects.all()
  
     def get_queryset(self):
-        # Nous récupérons tous les produits dans une variable nommée queryset
-        #queryset = Trip.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         email = self.request.GET['email']
         active = self.request.GET['active']
         price = self.request.GET['price']
@@ -272,20 +240,12 @@ class TripAPIView(ModelViewSet):
 
     serializer_class = TripSerializer
     queryset = Trip.objects.all()
-
-
-    #class ProductViewset(ReadOnlyModelViewSet):
- 
-    #serializer_class = ProductSerializer
  
     def get_queryset(self):
-    # Nous récupérons tous les produits dans une variable nommée queryset
         queryset = Trip.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         trip_email = self.request.GET.get('email')
         if trip_email is not None:
             queryset = queryset.filter(email=trip_email)
-            #User.objects.get_or_create( email =user_email)
 
 
         return queryset
@@ -299,15 +259,8 @@ class TripCreateAPIView(ModelViewSet):
 
     serializer_class = TripSerializer
     queryset = Trip.objects.all()
-
-    #class ProductViewset(ReadOnlyModelViewSet):
- 
-    #serializer_class = ProductSerializer
  
     def get_queryset(self):
-    # Nous récupérons tous les produits dans une variable nommée queryset
-        #queryset = Trip.objects.filter(active=True)
-        # Vérifions la présence du paramètre ‘category_id’ dans l’url et si oui alors appliquons notre filtre
         email = self.request.GET['email']
         active = self.request.GET['active']
         departure = self.request.GET['departure']

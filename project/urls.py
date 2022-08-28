@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.authtoken.views import obtain_auth_token 
-from shop.views import (CategoryAPIView, CodeAPIView, CodeCreateAPIView, 
+from shop.views import (CategoryAPIView, CodeAPIView, CodeCreateAPIView, CodeUpdateAPIView, 
                         ProductAPIView, UserAPIView, CommandAPIView, UserCreateAPIView, 
                         UserUpdateAPIView,TripAPIView,TripCreateAPIView,CommandCreateAPIView, 
                         PaiementAPIView, PaiementCreateAPIView,home)
@@ -22,7 +22,7 @@ urlpatterns = [
     path('api/user/create', UserCreateAPIView.as_view({'get': 'list',
         'post':'create'})),
     path('api/user/update', UserUpdateAPIView.as_view({'get': 'list',
-        'post':'create'})),
+        'put':'update'})),
     path('api/command/', CommandAPIView.as_view({'get': 'list',
         'post':'create'})),
     path('api/command/create', CommandCreateAPIView.as_view({'get': 'list',
@@ -33,6 +33,8 @@ urlpatterns = [
         'post':'create'})),
     path('api/code/create', CodeCreateAPIView.as_view({'get': 'list',
         'post':'create'})),
+    path('api/code/update', CodeUpdateAPIView.as_view({'get': 'list',
+        'put':'update'})),
     path('api/code/', CodeAPIView.as_view({'get': 'list',
         'post':'create'})),
     path('api/paiement/', PaiementAPIView.as_view({'get': 'list',
