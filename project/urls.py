@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.authtoken.views import obtain_auth_token 
-from shop.views import (CategoryAPIView, CodeAPIView, CodeCreateAPIView, CodeUpdateAPIView, 
+from shop.views import (CategoryAPIView, CodeAPIView, CodeCreateAPIView, CodeUpdateAPIView, CommandUpdateAPIView, DeliveryPayAPIView, 
                         ProductAPIView, UserAPIView, CommandAPIView, UserCreateAPIView, 
                         UserUpdateAPIView,TripAPIView,TripCreateAPIView,CommandCreateAPIView, 
                         PaiementAPIView, PaiementCreateAPIView,home)
@@ -27,6 +27,8 @@ urlpatterns = [
         'post':'create'})),
     path('api/command/create', CommandCreateAPIView.as_view({'get': 'list',
         'post':'create'})),
+    path('api/command/update', CommandUpdateAPIView.as_view({'get': 'list',
+        'put':'update'})),
     path('api/trip/', TripAPIView.as_view({'get': 'list',
         'post':'create'})),
     path('api/trip/create', TripCreateAPIView.as_view({'get': 'list',
@@ -40,6 +42,8 @@ urlpatterns = [
     path('api/paiement/', PaiementAPIView.as_view({'get': 'list',
         'post':'create'})),
     path('api/paiement/create', PaiementCreateAPIView.as_view({'get': 'list',
+        'post':'create'})),
+    path('api/delivery-pay/', DeliveryPayAPIView.as_view({'get': 'list',
         'post':'create'})),
 
     path('home', home, name='home'),

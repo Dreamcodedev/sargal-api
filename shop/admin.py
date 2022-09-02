@@ -1,5 +1,5 @@
 from django.contrib import admin
-from shop.models import Category, Code, Paiement, Product, User, Command, Trip
+from shop.models import Category, Code, DeliveryPay, Paiement, Product, User, Command, Trip
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -27,7 +27,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class CommandAdmin(admin.ModelAdmin):
 
-    list_display = ('email','name', 'price', 'quantity', 'detail','validate', 'accepted','number' ,'phone' ,'active' )
+    list_display = ('email','name', 'price', 'quantity', 'detail','validate', 'accepted','number' ,'phone','pay' ,'active' )
 
 class TripAdmin(admin.ModelAdmin):
 
@@ -41,6 +41,10 @@ class PaiementAdmin(admin.ModelAdmin):
 
     list_display = ('date_created','date_updated','email','number', 'delivery','paiement','name','active' )
 
+class DeliveryPayAdmin(admin.ModelAdmin):
+
+    list_display = ('date_created','date_updated','delivery_pay', 'name','active' )
+
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
@@ -50,3 +54,4 @@ admin.site.register(Command, CommandAdmin)
 admin.site.register(Trip, TripAdmin)
 admin.site.register(Code, CodeAdmin)
 admin.site.register(Paiement, PaiementAdmin)
+admin.site.register(DeliveryPay, DeliveryPayAdmin)

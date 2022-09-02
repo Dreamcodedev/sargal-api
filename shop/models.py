@@ -86,6 +86,7 @@ class Command(models.Model):
     detail = models.TextField(blank=True)
     validate = models.BooleanField(default=False)
     accepted = models.BooleanField(default=True)
+    pay = models.BooleanField(default=False)
     number = models.PositiveIntegerField(default=1)
     phone = models.PositiveIntegerField(default=0)
 
@@ -138,4 +139,16 @@ class Paiement(models.Model):
 
     def __str__(self):
         return self.email
+
+class DeliveryPay(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    active = models.BooleanField(default=False)
+    name = models.CharField(max_length=255, blank=True)
+    delivery_pay = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+
+    def __str__(self):
+        return self.name
 

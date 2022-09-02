@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from shop.models import Category, Code, Paiement, Product, User, Command, Trip
+from shop.models import Category, Code, DeliveryPay, Paiement, Product, User, Command, Trip
 
 class CategorySerializer(ModelSerializer):
 
@@ -71,14 +71,8 @@ class CommandSerializer(ModelSerializer):
 
     class Meta :
         model = Command
-        fields = ['id', 'date_created', 'date_updated', 'name', 'active', 'price','quantity','email', 'detail', 'validate', 'number','accepted', 'phone']
+        fields = ['id', 'date_created', 'date_updated', 'name', 'active', 'price','quantity','email', 'detail', 'validate', 'number','accepted', 'phone', 'pay']
 
-    def update(self, data):
-        queryset = Command.objects.filter(data[id]).update( delivery = data['delivery'], paiement = data['paiement'])
-        #delivery = self.validated_data['delivery']
-        #paiement = self.validated_data['paiement']
-        #return super().update(instance, validated_data)
-        queryset.save()
 
 
 
@@ -99,3 +93,9 @@ class PaiementSerializer(ModelSerializer):
     class Meta :
         model = Paiement
         fields = ['date_created','date_updated','email','number', 'delivery','paiement','name','active']
+
+class DeliveryPaySerializer(ModelSerializer):
+
+    class Meta :
+        model = DeliveryPay
+        fields = ['date_created','date_updated','delivery_pay', 'name' ,'active']

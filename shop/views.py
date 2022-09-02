@@ -12,8 +12,8 @@ from rest_framework import status
 from django.core.mail import EmailMultiAlternatives, send_mail
 
 
-from shop.models import Category, Code, Paiement, Product, User, Command, Trip
-from shop.serializers import CategorySerializer, CodeSerializer, PaiementSerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
+from shop.models import Category, Code, DeliveryPay, Paiement, Product, User, Command, Trip
+from shop.serializers import CategorySerializer, CodeSerializer, DeliveryPaySerializer, PaiementSerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
 
 from django.http import HttpResponse
 from django.template import loader
@@ -225,13 +225,35 @@ class CommandCreateAPIView(ModelViewSet):
         detail = self.request.GET['detail']
         number = self.request.GET['number']
         phone = self.request.GET['phone']
+        pay = self.request.GET['pay']
 
         
 
         if email is not None:
-            Command.objects.create( email =email, price=price, quantity=quantity, name=name,detail=detail, number=number, phone= phone ,active=active)
+            Command.objects.create( email =email, price=price, quantity=quantity, name=name,detail=detail, number=number, phone= phone, pay=pay ,active=active)
             return
-        
+
+class CommandUpdateAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = CommandSerializer
+    queryset = Command.objects.all()
+ 
+    def get_queryset(self):
+        #email = self.request.GET['email']
+        pay = self.request.GET['pay']
+        active = self.request.GET['active']
+        id = self.request.GET['id']
+        if id is not None :
+            command= Command.objects.get(pk=id)
+            command.pay = pay
+            command.save()
+            return        
+
+
 
 class TripAPIView(ModelViewSet):
 
@@ -270,3 +292,12 @@ class TripCreateAPIView(ModelViewSet):
         if email is not None:
             Trip.objects.create( email =email, date_time=date_time ,phone=phone, departure=departure, arrival=arrival, active=active)
             return
+
+
+class DeliveryPayAPIView(ModelViewSet):
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = DeliveryPaySerializer
+    queryset = DeliveryPay.objects.filter(active=True)
