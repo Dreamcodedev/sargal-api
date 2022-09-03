@@ -1,3 +1,4 @@
+from wsgiref.validate import validator
 from django.db import models, transaction
 from phone_field import PhoneField
 
@@ -68,6 +69,7 @@ class User(models.Model):
     customer = models.BooleanField(default=False)
     delivery = models.BooleanField(default=False)
     seller = models.BooleanField(default=False)
+    validator = models.BooleanField(default=False)
 
     def __str__(self):
         return self.email

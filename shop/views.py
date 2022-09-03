@@ -251,7 +251,46 @@ class CommandUpdateAPIView(ModelViewSet):
             command= Command.objects.get(pk=id)
             command.pay = pay
             command.save()
-            return        
+            return   
+
+class CommandUpdateValidateAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = CommandSerializer
+    queryset = Command.objects.all()
+ 
+    def get_queryset(self):
+        active = self.request.GET['active']
+        validate = self.request.GET['validate']
+        id = self.request.GET['id']
+        if id is not None :
+            command= Command.objects.get(pk=id)
+            command.validate = validate
+            command.save()
+            return   
+
+class CommandUpdateAcceptedAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = CommandSerializer
+    queryset = Command.objects.all()
+ 
+    def get_queryset(self):
+        active = self.request.GET['active']
+        accepted = self.request.GET['accepted']
+        id = self.request.GET['id']
+        if id is not None :
+            command= Command.objects.get(pk=id)
+            command.accepted = accepted
+            command.save()
+            return  
+
 
 
 
