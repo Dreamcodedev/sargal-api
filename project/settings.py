@@ -114,15 +114,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
-MAILJET_API_KEY = os.environ['MJ_APIKEY_PUBLIC']
-MAILJET_API_SECRET = os.environ['MJ_APIKEY_PRIVATE']
-EMAIL_HOST = 'in-v3.mailjet.com'
+#EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+#MAILJET_API_KEY = os.environ['MJ_APIKEY_PUBLIC']
+#MAILJET_API_SECRET = os.environ['MJ_APIKEY_PRIVATE']
+#EMAIL_HOST = 'in-v3.mailjet.com'
+#EMAIL_PORT = 587
+#EMAIL_USE_TLS = True
+#EMAIL_USE_SSL = False
+#EMAIL_TIMEOUT = 30
+#DEFAULT_FROM_EMAIL = 'sender_name <email_name>'
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_TIMEOUT = 30
-#DEFAULT_FROM_EMAIL = 'sender_name <email_name>'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = os.environ.get('FROM_EMAIL')
 
 
 # Database
