@@ -206,13 +206,15 @@ class UserCreateAPIView(ModelViewSet):
         email = self.request.GET['email']
         firs_name = self.request.GET['firs_name']
         last_name = self.request.GET['last_name']
+        gender = self.request.GET['gender']
+        date_of_birth = self.request.GET['date_of_birth']
         phone = self.request.GET['phone']
         address = self.request.GET['address']
         card_money = self.request.GET['card_money']
         customer = self.request.GET['customer']
         active = self.request.GET['active']
         if email is not None:
-            User.objects.get_or_create(email=email,firs_name =firs_name,last_name= last_name, phone= phone,address= address, card_money=card_money, customer=customer, active=active)
+            User.objects.get_or_create(email=email,firs_name =firs_name,last_name= last_name, gender=gender, date_of_birth=date_of_birth , phone= phone,address= address, card_money=card_money, customer=customer, active=active)
 
             return
 
@@ -337,9 +339,11 @@ class CommandUpdateValidateAPIView(ModelViewSet):
         id = self.request.GET['id']
         number = self.request.GET['number']
         email = self.request.GET['email']
-        if number is not None :
+        price = self.request.GET['price']
+        if email is not None :
             command= Command.objects.get(pk=id)
             command.validate = validate
+            command.price = price
             command.save()
             send_mail(
                 subject=f"Command N° : {self.request.GET['number']} Validé",
@@ -350,7 +354,7 @@ class CommandUpdateValidateAPIView(ModelViewSet):
                     Notre service de livraison vous contactera pour définir avec vous le mode de livraison.</p> \
                     <p> Sargal vous remercie infiniment. </p> \
                     <h5> Détails de votre commande </h5> \
-                    <p>N° de commande :{self.request.GET['number']} </p> \
+                    <p>N° de commande :{number} </p> \
                     <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>",
                 from_email='sargal@jendgroup.com',
                 recipient_list=[self.request.GET['email']])

@@ -43,7 +43,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta :
         model = User
-        fields = ['id', 'date_created', 'date_updated', 'firs_name','last_name','address','email','phone','card_money', 'customer','delivery' ,'seller', 'validator' ,'active'] 
+        fields = ['id', 'date_created', 'date_updated', 'firs_name','last_name','gender', 'date_of_birth' ,'address','email','phone','card_money', 'customer','delivery' ,'seller', 'validator' ,'active'] 
 
 
 
@@ -51,7 +51,7 @@ class CommandSerializer(ModelSerializer):
 
     class Meta :
         model = Command
-        fields = ['id', 'date_created', 'date_updated', 'name', 'active', 'price','quantity','email', 'detail', 'validate', 'number','accepted', 'phone', 'pay']
+        fields = ['id', 'date_created', 'date_updated', 'name','active', 'price','quantity','email', 'detail', 'validate', 'number','accepted', 'phone', 'pay']
 
 
 

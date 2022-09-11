@@ -60,6 +60,8 @@ class User(models.Model):
 
     active = models.BooleanField(default=False)
 
+    gender = models.CharField(max_length=3, null=True)
+    date_of_birth = models.CharField(max_length=100, null=True)
     firs_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
     address = models.CharField(max_length=255, null=True)
