@@ -12,8 +12,8 @@ from rest_framework import status
 from django.core.mail import EmailMultiAlternatives, send_mail
 from dotenv import load_dotenv
 
-from shop.models import Category, Code, DeliveryPay, Paiement, Product, User, Command, Trip
-from shop.serializers import CategorySerializer, CodeSerializer, DeliveryPaySerializer, PaiementSerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
+from shop.models import CGU, Category, Code, DeliveryPay, Paiement, Product, User, Command, Trip
+from shop.serializers import CGUSerializer, CategorySerializer, CodeSerializer, DeliveryPaySerializer, PaiementSerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
 
 from django.http import HttpResponse
 from django.template import loader
@@ -212,9 +212,10 @@ class UserCreateAPIView(ModelViewSet):
         address = self.request.GET['address']
         card_money = self.request.GET['card_money']
         customer = self.request.GET['customer']
+        cgu = self.request.GET['cgu']
         active = self.request.GET['active']
         if email is not None:
-            User.objects.get_or_create(email=email,firs_name =firs_name,last_name= last_name, gender=gender, date_of_birth=date_of_birth , phone= phone,address= address, card_money=card_money, customer=customer, active=active)
+            User.objects.get_or_create(email=email,firs_name =firs_name,last_name= last_name, gender=gender, date_of_birth=date_of_birth , phone= phone,address= address, card_money=card_money, customer=customer,cgu=cgu ,active=active)
 
             return
 
@@ -240,7 +241,56 @@ class UserUpdateAPIView(ModelViewSet):
             user.save()
             return
 
-        
+class UserUpdateCguAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+ 
+    def get_queryset(self):
+        email = self.request.GET['email']
+        cgu = self.request.GET['cgu']
+        active = self.request.GET['active']
+        id = self.request.GET['id']
+        if email is not None :
+            user= User.objects.get(pk=id)
+            user.cgu = cgu
+            user.save()
+            return
+
+class CGUAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = CGUSerializer
+    queryset = CGU.objects.filter(active=True)
+ 
+
+class CGUCreateAPIView(ModelViewSet):
+
+    permission_classes = (IsAuthenticated,) 
+    authentication_classes = (TokenAuthentication,)
+
+
+    serializer_class = CGUSerializer
+    queryset = CGU.objects.all()
+ 
+    def get_queryset(self):
+        email = self.request.GET['email']
+        cgu = self.request.GET['cgu']
+        active = self.request.GET['active']
+        id = self.request.GET['id']
+
+        if email is not None:
+            cgu= CGU.objects.get(pk=id)
+            cgu.cgu = cgu
+            cgu.save()
+            return    
 
 class CommandAPIView(ModelViewSet):
 

@@ -72,6 +72,19 @@ class User(models.Model):
     delivery = models.BooleanField(default=False)
     seller = models.BooleanField(default=False)
     validator = models.BooleanField(default=False)
+    add_cgu = models.BooleanField(default=False)
+    cgu = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.email
+
+class CGU(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    active = models.BooleanField(default=False)
+    cgu = models.TextField(blank=True)
+    email = models.EmailField(max_length = 254, null=True)
 
     def __str__(self):
         return self.email

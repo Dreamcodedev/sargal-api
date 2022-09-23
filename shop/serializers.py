@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from shop.models import Category, Code, DeliveryPay, Paiement, Product, User, Command, Trip
+from shop.models import CGU, Category, Code, DeliveryPay, Paiement, Product, User, Command, Trip
 
 class CategorySerializer(ModelSerializer):
 
@@ -43,7 +43,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta :
         model = User
-        fields = ['id', 'date_created', 'date_updated', 'firs_name','last_name','gender', 'date_of_birth' ,'address','email','phone','card_money', 'customer','delivery' ,'seller', 'validator' ,'active'] 
+        fields = ['id', 'date_created', 'date_updated', 'firs_name','last_name','gender','add_cgu' , 'date_of_birth' ,'address','email','phone','card_money', 'customer','delivery' ,'seller', 'validator', 'cgu' ,'active'] 
 
 
 
@@ -79,3 +79,8 @@ class DeliveryPaySerializer(ModelSerializer):
     class Meta :
         model = DeliveryPay
         fields = ['date_created','date_updated','delivery_pay', 'name' ,'active']
+
+class CGUSerializer(ModelSerializer):
+    class Meta:
+        model = CGU
+        fields = ['date_created','date_updated','cgu', 'email','active' ]

@@ -4,10 +4,10 @@ from django.conf import settings
 from rest_framework import routers
 from django.conf.urls.static import static
 from rest_framework.authtoken.views import obtain_auth_token 
-from shop.views import (CategoryAPIView, CodeAPIView, CodeCreateAPIView, CodeUpdateAPIView, CommandUpdateAPIView, CommandUpdateAcceptedAPIView, CommandUpdateValidateAPIView, DeliveryPayAPIView, 
+from shop.views import (CGUAPIView, CGUCreateAPIView, CategoryAPIView, CodeAPIView, CodeCreateAPIView, CodeUpdateAPIView, CommandUpdateAPIView, CommandUpdateAcceptedAPIView, CommandUpdateValidateAPIView, DeliveryPayAPIView, 
                         ProductAPIView, UserAPIView, CommandAPIView, UserCreateAPIView, 
                         UserUpdateAPIView,TripAPIView,TripCreateAPIView,CommandCreateAPIView, 
-                        PaiementAPIView, PaiementCreateAPIView,home)
+                        PaiementAPIView, PaiementCreateAPIView, UserUpdateCguAPIView,home)
 
 
 urlpatterns = [
@@ -22,7 +22,13 @@ urlpatterns = [
         'post':'create'})),
     path('api/user/create', UserCreateAPIView.as_view({'get': 'list',
         'post':'create'})),
+    path('api/cgu/update/<int:pk>/', CGUCreateAPIView.as_view({'get': 'list',
+        'put':'update'})),
+    path('api/cgu/', CGUAPIView.as_view({'get': 'list',
+        'post':'create'})),
     path('api/user/update/<int:pk>/', UserUpdateAPIView.as_view({'get': 'list',
+        'put':'update'})),
+    path('api/user/update/cgu/<int:pk>/', UserUpdateCguAPIView.as_view({'get': 'list',
         'put':'update'})),
     path('api/command/', CommandAPIView.as_view({'get': 'list',
         'post':'create'})),
@@ -50,6 +56,7 @@ urlpatterns = [
         'post':'create'})),
     path('api/delivery-pay/', DeliveryPayAPIView.as_view({'get': 'list',
         'post':'create'})),
+    
 
     path('home', home, name='home'),
 
