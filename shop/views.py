@@ -11,6 +11,9 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework import status
 from django.core.mail import EmailMultiAlternatives, send_mail
 from dotenv import load_dotenv
+import sendgrid
+import os
+from sendgrid.helpers.mail import *
 
 from shop.models import CGU, Category, Code, DeliveryPay, Paiement, Product, User, Command, Trip
 from shop.serializers import CGUSerializer, CategorySerializer, CodeSerializer, DeliveryPaySerializer, PaiementSerializer, ProductSerializer, UserSerializer, CommandSerializer, TripSerializer
@@ -21,9 +24,34 @@ from mailjet_rest import Client
 import os
 load_dotenv()
 
-def mail(email : str):
-   send_mail(subject='A cool subject',message='A stunning message',from_email='sargal@jendgroup.com',recipient_list=[email])
-
+def mail(email : str, content: str, subject :str):
+   #send_mail(subject='A cool subject',message='A stunning message',from_email='sargal@jendgroup.com',recipient_list=[email])
+    sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+    data = {
+    "personalizations": [
+        {
+        "to": [
+            {
+            "email": email
+            }
+        ],
+        "subject": subject
+        }
+    ],
+    "from": {
+        "email": os.environ.get('FROM_EMAIL')
+    },
+    "content": [
+        {
+        "type": "text/html",
+        "value": content
+        }
+    ]
+    }
+    response = sg.client.mail.send.post(request_body=data)
+    print(response.status_code)
+    print(response.body)
+    print(response.headers)
 
 def home(request):
     template = loader.get_template('home.html')
@@ -103,19 +131,16 @@ class PaiementCreateAPIView(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         response = super(PaiementCreateAPIView, self).create(request, *args, **kwargs)
-        send_mail(
-                subject=f"Command N° : {self.request.GET['number']} Livrée",
-                message='SARGAL',
-                html_message = f"<p>Bonjour, </br> \
+        subject=f"Command N° : {self.request.GET['number']} Livrée"
+        html_message = f"<p>Bonjour, </br> \
                     L'équipe SARGAL vous remercie de passer votre commande via notre Application. </p>\
                     <p>Félicitations. Votre commande a été livrée.</br> \
                     <p> Sargal vous remercie infiniment. </p> \
                     <h5> Détails de votre commande </h5> \
                     <p>N° de commande :{self.request.GET['number']} </p> \
                     <p> Paiement : {self.request.GET['paiement']}</p> \
-                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>",
-                from_email='sargal@jendgroup.com',
-                recipient_list=[self.request.GET['email']])
+                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>"
+        mail(email=f"{self.request.GET['email']}", content=html_message, subject=subject)
         print(f"Message send to {self.request.GET['email']}")
         return response
 
@@ -183,10 +208,8 @@ class UserCreateAPIView(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         response = super(UserCreateAPIView, self).create(request, *args, **kwargs)
-        send_mail(
-                subject=f"Bienvenue {self.request.GET['firs_name']} {self.request.GET['last_name']}",
-                message='SARGAL',
-                html_message = f"<p>Bonjour, </br> \
+        subject=f"Bienvenue {self.request.GET['firs_name']} {self.request.GET['last_name']}"
+        html_message = f"<p>Bonjour, </br> \
                     L'équipe SARGAL est très heureuse de vous acceuillir parmis nous</p>\
                     <p>Vous avez reçu un email pour valider votre adresse eamil et ainsi accéder à toutes les fonctionnalités de l'application.</p> \
                     <p> Sargal vous remercie infiniment. </p> \
@@ -196,9 +219,8 @@ class UserCreateAPIView(ModelViewSet):
                     <p> Téléphone :{self.request.GET['phone']} </p> \
                     <p> Adresse :{self.request.GET['address']} </p> \
                     <p> Email :{self.request.GET['email']} </p> \
-                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>",
-                from_email='sargal@jendgroup.com',
-                recipient_list=[self.request.GET['email']])
+                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>"
+        mail(email=f"{self.request.GET['email']}", content=html_message, subject=subject)
         print(f"Message send to {self.request.GET['email']}")
         return response
  
@@ -316,10 +338,8 @@ class CommandCreateAPIView(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         response = super(CommandCreateAPIView, self).create(request, *args, **kwargs)
-        send_mail(
-                subject=f"Command N° : {self.request.GET['number']}",
-                message='SARGAL',
-                html_message = f"<p>Bonjour, </br> \
+        subject=f"Command N° : {self.request.GET['number']}"
+        html_message = f"<html><body><p>Bonjour, </br> \
                     L'équipe SARGAL vous remercie de passer votre commande via notre Application. </p>\
                     <p>Votre command est en cours de validation. Vous recevrez une notification dès qu'il sera validé.</p> \
                     <p> Sargal vous remercie infiniment. </p> \
@@ -328,9 +348,8 @@ class CommandCreateAPIView(ModelViewSet):
                     <p>N° de commande :{self.request.GET['number']} </p> \
                     <p> Téléphone :{self.request.GET['phone']} </p> \
                     <p> Total (dont frais de livraion) : {self.request.GET['price']} MRU </p> \
-                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>",
-                from_email='sargal@jendgroup.com',
-                recipient_list=[self.request.GET['email']])
+                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p></body></html>"
+        mail(email=f"{self.request.GET['email']}", content=html_message, subject=subject)
         print(f"Message send to {self.request.GET['email']}")
         return response
 
@@ -395,19 +414,16 @@ class CommandUpdateValidateAPIView(ModelViewSet):
             command.validate = validate
             command.price = price
             command.save()
-            send_mail(
-                subject=f"Command N° : {self.request.GET['number']} Validé",
-                message='SARGAL',
-                html_message = f"<p>Bonjour, </br> \
+            subject=f"Command N° : {self.request.GET['number']} Validé"
+            html_message = f"<p>Bonjour, </br> \
                     L'équipe SARGAL vous remercie de passer votre commande via notre Application. </p>\
                     <p>Félicitations. Votre commande a été validée est en cours de préparation et vous sera livré dans les meilleurs délais. </br> \
                     Notre service de livraison vous contactera pour définir avec vous le mode de livraison.</p> \
                     <p> Sargal vous remercie infiniment. </p> \
                     <h5> Détails de votre commande </h5> \
                     <p>N° de commande :{number} </p> \
-                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>",
-                from_email='sargal@jendgroup.com',
-                recipient_list=[self.request.GET['email']])
+                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>"
+            mail(email=f"{self.request.GET['email']}", content=html_message, subject=subject)
             print(f"Message send to {self.request.GET['email']}")
             return   
 
@@ -430,19 +446,16 @@ class CommandUpdateAcceptedAPIView(ModelViewSet):
         number = self.request.GET['number']
         email = self.request.GET['email']
         if id is not None :
-            send_mail(
-                subject=f"Command N° : {self.request.GET['number']} Annulée",
-                message='SARGAL',
-                html_message = f"<p>Bonjour, </br> \
+            subject=f"Command N° : {self.request.GET['number']} Annulée"
+            html_message = f"<p>Bonjour, </br> \
                     L'équipe SARGAL vous remercie de passer votre commande via notre Application. </p>\
                     <p>Malheursement votre commande a été annulée. </br> \
                     Si vous avez payé avec Sargal Cash, vous serez remboursé dans 5 jours ouvrés. <br> \
                     Vérifier votre compte sargal Cash.</p> \
                     <h5> Détails de votre commande </h5> \
                     <p>N° de commande :{self.request.GET['number']} </p> \
-                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>",
-                from_email='sargal@jendgroup.com',
-                recipient_list=[self.request.GET['email']])
+                    <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>"
+            mail(email=f"{self.request.GET['email']}", content=html_message, subject=subject)
             print(f"Message send to {self.request.GET['email']}")
             command= Command.objects.get(pk=id)
             command.accepted = accepted
