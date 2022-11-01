@@ -409,6 +409,7 @@ class CommandUpdateValidateAPIView(ModelViewSet):
         number = self.request.GET['number']
         email = self.request.GET['email']
         price = self.request.GET['price']
+        detail = self.request.GET['detail']
         if email is not None :
             command= Command.objects.get(pk=id)
             command.validate = validate
@@ -421,6 +422,7 @@ class CommandUpdateValidateAPIView(ModelViewSet):
                     Notre service de livraison vous contactera pour définir avec vous le mode de livraison.</p> \
                     <p> Sargal vous remercie infiniment. </p> \
                     <h5> Détails de votre commande </h5> \
+                    {detail}\
                     <p>N° de commande :{number} </p> \
                     <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>"
             mail(email=f"{self.request.GET['email']}", content=html_message, subject=subject)
@@ -445,6 +447,7 @@ class CommandUpdateAcceptedAPIView(ModelViewSet):
         id = self.request.GET['id']
         number = self.request.GET['number']
         email = self.request.GET['email']
+        detail = self.request.GET['detail']
         if id is not None :
             subject=f"Command N° : {self.request.GET['number']} Annulée"
             html_message = f"<p>Bonjour, </br> \
@@ -453,6 +456,7 @@ class CommandUpdateAcceptedAPIView(ModelViewSet):
                     Si vous avez payé avec Sargal Cash, vous serez remboursé dans 5 jours ouvrés. <br> \
                     Vérifier votre compte sargal Cash.</p> \
                     <h5> Détails de votre commande </h5> \
+                        {detail} \
                     <p>N° de commande :{self.request.GET['number']} </p> \
                     <p> Pour toutes modifications ou réclamations veuillez contacter directement notre service clientel via  l'application </p>"
             mail(email=f"{self.request.GET['email']}", content=html_message, subject=subject)
